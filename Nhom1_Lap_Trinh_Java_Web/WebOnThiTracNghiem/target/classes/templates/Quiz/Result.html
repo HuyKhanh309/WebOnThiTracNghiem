@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Thi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Màu nền xám nhạt */
+            color: #212529; /* Màu chữ đen */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font chữ thân thiện */
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .mb-4 {
+            margin-bottom: 2rem; /* Khoảng cách giữa các phần tử */
+        }
+        .alert {
+            padding: 1rem 1.5rem; /* Khoảng cách nội dung trong alert */
+            margin-bottom: 1rem; /* Khoảng cách giữa các alert */
+            border: 1px solid transparent; /* Viền của alert */
+            border-radius: 0.25rem; /* Góc bo của alert */
+        }
+        .alert-success {
+            background-color: #d4edda; /* Màu nền của alert success */
+            border-color: #c3e6cb; /* Màu viền của alert success */
+            color: #155724; /* Màu chữ của alert success */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Màu nền nút chính */
+            border-color: #007bff; /* Màu viền nút chính */
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Hiệu ứng chuyển đổi màu khi hover */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Màu nền nút chính khi hover */
+            border-color: #0056b3; /* Màu viền nút chính khi hover */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Kết Quả Thi</h1>
+    <div class="alert alert-success text-center mb-4" role="alert" th:text="${message}">Đã nộp bài thành công!</div>
+    <div class="alert alert-success text-center mb-4" role="alert" th:text="${point}">Điểm số của bạn!</div>
+    <div class="d-grid gap-2">
+        <a href="/" class="btn btn-primary btn-lg">Quay lại</a>
+    </div>
+</div>
+<!-- Bootstrap JS (optional, if you need JS functionality) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

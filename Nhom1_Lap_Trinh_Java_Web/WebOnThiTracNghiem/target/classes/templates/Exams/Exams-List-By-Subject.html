@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Danh sách đề thi</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <h1>Danh sách đề thi</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tên đề thi</th>
+            <th>Môn học</th>
+            <th>Số câu hỏi</th>
+            <th>Phí</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exam : ${exams}">
+            <td th:text="${exam.idExam}"></td>
+            <td th:text="${exam.note}"></td>
+            <td th:text="${exam.subject.name}"></td>
+            <td th:text="${exam.quantity}"></td>
+            <td th:text="${exam.price}"></td>
+            <td>
+                <a th:href="@{/admin/exams/edit/{id}(id=${exam.idExam})}" class="btn btn-success btn-sm">Sửa</a>
+                <a th:href="@{/admin/exams/questions/{id}(id=${exam.idExam})}" class="btn btn-info btn-sm">Xem câu hỏi</a>
+                <a th:href="@{/admin/exams/questions/add/{id}(id=${exam.idExam})}" class="btn btn-primary btn-sm">Thêm câu hỏi</a>
+                <form th:action="@{/admin/exams/delete/{id}(id=${exam.idExam})}" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        <!-- Xử lý khi danh sách đề thi rỗng hoặc null -->
+        <tr th:if="${#lists.isEmpty(exams)}">
+            <td colspan="6">Không có đề thi nào được tìm thấy.</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

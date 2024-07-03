@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    <style>
+        .custom-btn {
+            background-color: #4CAF50; /* Màu xanh lá cây */
+            color: #fff; /* Màu chữ trắng */
+            border: none; /* Không có viền */
+            padding: 10px 20px; /* Độ lớn của nút */
+            text-align: center; /* Căn giữa nội dung */
+            text-decoration: none; /* Không gạch chân */
+            display: inline-block; /* Hiển thị là một khối inline */
+            font-size: 16px; /* Cỡ chữ */
+            transition-duration: 0.4s; /* Thời gian chuyển tiếp */
+            cursor: pointer; /* Con trỏ chuột là bàn tay */
+            border-radius: 4px; /* Bo góc */
+        }
+
+        .custom-btn:hover {
+            background-color: #45a049; /* Màu xanh lá cây nhạt khi di chuột vào */
+            color: white; /* Màu chữ trắng */
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <h1>Danh sách câu hỏi</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Quản lý câu hỏi</h2>
+        <a th:href="@{/admin/questions/add}" class="btn btn-primary custom-btn">Thêm câu hỏi mới</a>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Câu hỏi</th>
+            <th>Đề thi</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question, i : ${questions}">
+            <td th:text="${question.idQuestion}"></td>
+            <td th:text="${question.ndQuestion}"></td>
+            <td th:text="${examNotes[i.index]}"></td> <!-- Display exam note for each question -->
+            <td>
+                <a th:href="@{/admin/questions/edit/{id}(id=${question.idQuestion})}" class="btn btn-success btn-sm">Edit</a>
+                <a th:href="@{/admin/questions/delete/{id}(id=${question.idQuestion})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

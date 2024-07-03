@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đề Thi Trắc Nghiệm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Màu nền xám nhạt */
+            color: #212529; /* Màu chữ đậm */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font chữ thân thiện */
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .mb-4 {
+            margin-bottom: 2rem; /* Khoảng cách giữa các phần tử */
+        }
+        .h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem; /* Khoảng cách giữa tiêu đề câu hỏi và các câu trả lời */
+            color: #000; /* Màu chữ xanh dương */
+        }
+        .form-check {
+            margin-bottom: 0.4rem; /* Khoảng cách giữa các câu trả lời */
+        }
+        .form-check-label {
+            cursor: pointer; /* Con trỏ chuột thành dấu nhấp */
+        }
+        .form-check-input {
+            margin-right: 8px; /* Khoảng cách giữa input và label */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Màu nền nút chính */
+            border-color: #007bff; /* Màu viền nút chính */
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Hiệu ứng chuyển đổi màu khi hover */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Màu nền nút chính khi hover */
+            border-color: #0056b3; /* Màu viền nút chính khi hover */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Đề Thi Trắc Nghiệm</h1>
+    <form method="post" th:action="@{/exam/quiz_Exam/{id}(id=${examId})}">
+        <div th:each="examQuestion, iterStat : ${questions}" class="mb-4">
+            <h2 class="h5 mb-3">Câu hỏi số <span th:text="${iterStat.index + 1}">1</span>: <span th:text="${examQuestion.question.ndQuestion}">Sample question</span></h2>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:name="'question' + ${examQuestion.question.idQuestion}" th:value="1" id="answer1-${examQuestion.question.idQuestion}">
+                <label class="form-check-label" th:for="'answer1' + ${examQuestion.question.idQuestion}" th:text="${examQuestion.question.answer1}">Answer 1</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:name="'question' + ${examQuestion.question.idQuestion}" th:value="2" id="answer2-${examQuestion.question.idQuestion}">
+                <label class="form-check-label" th:for="'answer2' + ${examQuestion.question.idQuestion}" th:text="${examQuestion.question.answer2}">Answer 2</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:name="'question' + ${examQuestion.question.idQuestion}" th:value="3" id="answer3-${examQuestion.question.idQuestion}">
+                <label class="form-check-label" th:for="'answer3' + ${examQuestion.question.idQuestion}" th:text="${examQuestion.question.answer3}">Answer 3</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:name="'question' + ${examQuestion.question.idQuestion}" th:value="4" id="answer4-${examQuestion.question.idQuestion}">
+                <label class="form-check-label" th:for="'answer4' + ${examQuestion.question.idQuestion}" th:text="${examQuestion.question.answer4}">Answer 4</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Nộp Bài</button>
+    </form>
+</div>
+<!-- Bootstrap JS (optional, if you need JS functionality) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

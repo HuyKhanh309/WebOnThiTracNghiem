@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách môn học</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    <style>
+        .custom-btn {
+            background-color: #4CAF50; /* Màu xanh lá cây */
+            color: #fff; /* Màu chữ trắng */
+            border: none; /* Không có viền */
+            padding: 10px 20px; /* Độ lớn của nút */
+            text-align: center; /* Căn giữa nội dung */
+            text-decoration: none; /* Không gạch chân */
+            display: inline-block; /* Hiển thị là một khối inline */
+            font-size: 16px; /* Cỡ chữ */
+            transition-duration: 0.4s; /* Thời gian chuyển tiếp */
+            cursor: pointer; /* Con trỏ chuột là bàn tay */
+            border-radius: 4px; /* Bo góc */
+        }
+
+        .custom-btn:hover {
+            background-color: #45a049; /* Màu xanh lá cây nhạt khi di chuột vào */
+            color: white; /* Màu chữ trắng */
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <h1>Danh sách môn học</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Quản lý môn học</h2>
+        <a th:href="@{/admin/subjects/add}" class="btn btn-primary custom-btn">Thêm môn học mới</a>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Tên môn học</th>
+            <th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subject : ${subjects}">
+            <td th:text="${subject.idSubject}"></td>
+            <td th:text="${subject.name}"></td>
+            <td>
+                <a th:href="@{/admin/subjects/edit/{id}(id=${subject.idSubject})}" class="btn btn-primary btn-sm">Sửa</a>
+                <a th:href="@{/admin/subjects/exams/{id}(id=${subject.idSubject})}" class="btn btn-info btn-sm">Xem đề thi</a>
+                <a th:href="@{/admin/subjects/exams/add/{id}(id=${subject.idSubject})}" class="btn btn-primary btn-sm">Thêm đề thi</a>
+                <form th:action="@{/admin/subjects/delete/{id}(id=${subject.idSubject})}" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">Xóa</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

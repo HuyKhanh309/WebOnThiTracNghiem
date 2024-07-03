@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Exam</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+            color: #212529; /* Dark text color */
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-cancel {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <h1 class="mb-4">Thêm đề thi mới</h1>
+    <form th:action="@{/admin/subjects/exams/add/{id}(id=${subject.idSubject})}" th:object="${exam}" method="post" class="needs-validation" novalidate>
+        <div class="form-group mb-3">
+            <label for="note" class="form-label">Tên đề thi:</label>
+            <input type="text" class="form-control" id="note" th:field="*{note}" required>
+            <div class="invalid-feedback">Vui lòng nhập tên đề thi.</div>
+        </div>
+        <div class="form-group mb-3">
+            <label for="quantity" class="form-label">Số lượng câu hỏi:</label>
+            <input type="number" class="form-control" id="quantity" th:field="*{quantity}" required>
+            <div class="invalid-feedback">Vui lòng nhập số lượng câu hỏi.</div>
+        </div>
+        <div class="form-group mb-3">
+            <label for="price" class="form-label">Phí:</label>
+            <input type="number" class="form-control" id="price" th:field="*{price}" required>
+            <div class="invalid-feedback">Vui lòng nhập phí.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+        <a th:href="@{/admin/subjects}" class="btn btn-link btn-cancel">Hủy</a>
+    </form>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

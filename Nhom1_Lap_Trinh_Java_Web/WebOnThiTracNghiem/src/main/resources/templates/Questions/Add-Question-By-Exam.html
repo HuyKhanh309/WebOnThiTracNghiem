@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Question</title>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+            color: #212529; /* Dark text color */
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .card {
+            border: none; /* Remove default card border */
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Add subtle shadow */
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-cancel {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="mb-0">Thêm câu hỏi</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/admin/exams/questions/add/{id}(id=${exam.idExam})}" th:object="${question}" method="post">
+                <div class="form-group">
+                    <label for="question">Câu hỏi:</label>
+                    <textarea class="form-control" id="question" th:field="*{ndQuestion}" required></textarea>
+                    <div class="invalid-feedback">Vui lòng nhập câu hỏi.</div>
+                </div>
+                <div class="form-group">
+                    <label for="answer1">Đáp án 1:</label>
+                    <input type="text" class="form-control" id="answer1" th:field="*{answer1}" required />
+                </div>
+                <div class="form-group">
+                    <label for="answer2">Đáp án 2:</label>
+                    <input type="text" class="form-control" id="answer2" th:field="*{answer2}" required />
+                </div>
+                <div class="form-group">
+                    <label for="answer3">Đáp án 3:</label>
+                    <input type="text" class="form-control" id="answer3" th:field="*{answer3}" required />
+                </div>
+                <div class="form-group">
+                    <label for="answer4">Đáp án 4:</label>
+                    <input type="text" class="form-control" id="answer4" th:field="*{answer4}" required />
+                </div>
+                <div class="form-group">
+                    <label for="correctAnswer">Đáp án đúng:</label>
+                    <select class="form-control" id="correctAnswer" th:field="*{answer}" required>
+                        <option value="1">Đáp án 1</option>
+                        <option value="2">Đáp án 2</option>
+                        <option value="3">Đáp án 3</option>
+                        <option value="4">Đáp án 4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                    <a th:href="@{/admin/exams}" class="btn btn-link btn-cancel">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

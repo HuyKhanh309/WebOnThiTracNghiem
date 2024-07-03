@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="en" xmlns:th="http://www.thymeleaf.org">
+        <head>
+        <meta charset="UTF-8">
+        <title>Order Confirmation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container">
+<h1>Order Confirmation</h1>
+<p>Thank you for your payment!</p>
+<!-- Display any relevant payment information -->
+<p>Payment Reference: <span th:text="${paymentReference}"></span></p>
+
+<!-- Back to Home Button -->
+<a th:href="@{/}" class="btn btn-primary mt-3">Submit</a>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>

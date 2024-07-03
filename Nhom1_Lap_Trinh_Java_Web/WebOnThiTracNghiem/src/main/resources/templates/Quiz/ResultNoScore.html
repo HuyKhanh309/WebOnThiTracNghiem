@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Thi</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+            color: #212529; /* Dark text color */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Friendly font */
+            height: 100vh; /* Full height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0; /* Remove default margin */
+        }
+        .container {
+            max-width: 800px;
+            background: white; /* White background for container */
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            border-radius: 10px; /* Rounded corners */
+        }
+        .mb-4 {
+            margin-bottom: 1.5rem; /* Spacing between elements */
+        }
+        .alert {
+            padding: 1rem 1.5rem; /* Alert padding */
+            margin-bottom: 1rem; /* Margin between alerts */
+            border: 1px solid transparent; /* Alert border */
+            border-radius: 0.25rem; /* Rounded corners */
+        }
+        .alert-success {
+            background-color: #d4edda; /* Success alert background */
+            border-color: #c3e6cb; /* Success alert border */
+            color: #155724; /* Success alert text */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Primary button background */
+            border-color: #007bff; /* Primary button border */
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Hover effect */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Primary button hover background */
+            border-color: #0056b3; /* Primary button hover border */
+        }
+        .correct {
+            color: green; /* Correct answer text color */
+        }
+        .incorrect {
+            color: red; /* Incorrect answer text color */
+        }
+        .question {
+            margin-bottom: 1rem; /* Space between questions */
+        }
+        .answer {
+            margin-bottom: 0.5rem; /* Space between answers */
+        }
+        .back-button {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="mb-4 text-center">Kết Quả Thi</h1>
+    <div class="alert alert-success text-center mb-4" role="alert" th:text="${message}">Đã nộp bài thành công!</div>
+    <!--<div class="mb-4">
+        <h3 class="text-center" th:text="${point}">Điểm số của bạn: 8.5</h3>
+    </div>-->
+    <div class="mb-4">
+        <h3>Các câu trả lời của bạn:</h3>
+        <ul>
+            <li th:each="examQuestion : ${examQuestions}" class="question">
+                <p><b>Câu hỏi:</b> <span th:text="${examQuestion.question.ndQuestion}">Nội dung câu hỏi</span></p>
+                <p class="answer"><b>Trả lời của bạn:</b> <span th:text="${userAnswers[examQuestion.question.idQuestion]}"
+                                                                th:class="${userAnswers[examQuestion.question.idQuestion] == correctAnswers[examQuestion.question.idQuestion]} ? 'correct' : 'incorrect'">Đáp án của bạn</span></p>
+                <p th:if="${userAnswers[examQuestion.question.idQuestion] != correctAnswers[examQuestion.question.idQuestion]}" class="answer"><b>Đáp án đúng:</b> <span th:text="${correctAnswers[examQuestion.question.idQuestion]}">Đáp án đúng</span></p>
+                <hr/>
+            </li>
+        </ul>
+    </div>
+    <div class="back-button">
+        <a href="/" class="btn btn-primary btn-lg">Quay lại</a>
+    </div>
+</div>
+<!-- Bootstrap JS (optional, if you need JS functionality) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
