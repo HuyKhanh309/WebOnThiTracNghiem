@@ -49,7 +49,7 @@ public class ExamController {
     @PostMapping("/admin/exams/add")
     public String addExam(@Valid Exam exam, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "Exams/Add-Exam";
+            return "redirect:/admin/exams/add";
         }
         examService.addExam(exam);
         return "redirect:/admin/exams";
