@@ -49,7 +49,7 @@ public class ExamController {
     @PostMapping("/admin/exams/add")
     public String addExam(@Valid Exam exam, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "/admin/exams/add";
+            return "Exams/Add-Exam";
         }
         examService.addExam(exam);
         return "redirect:/admin/exams";
@@ -80,6 +80,7 @@ public class ExamController {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
+
         // Now you have a list of idQuestion, you can fetch corresponding Question objects
         List<Question> questions = questionService.getQuestionByListId(idQuestions);
 
@@ -95,6 +96,7 @@ public class ExamController {
         if (!questions.isEmpty()) {
             questionService.deleteQuestionByQuestion(questions);
         }
+
         examService.deleteExamById(id);
         model.addAttribute("exams", examService.getAllExams());
         return "redirect:/admin/exams";
