@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -38,12 +35,14 @@ public class QuizController {
         // Lấy thông tin người dùng đang đăng nhập
         Account account = accountRepository.findByUsername(principal.getName());
 
-        // Tìm bài kiểm tra
-        Exam exam = examRepository.findById(examId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid exam Id:" + examId));
-
+        Optional<Exam> exam = examRepository.findById(examId);
+        if(exam.isEmpty()) {
+            model.addAttribute("errorMessage", String.format("Invalid exam Id: %d", examId));
+            return "Quiz/Error"; // Chuyển hướng đến trang báo lỗi nếu đề thi không tồn tại
+        }
+        
         // Trừ tiền từ tài khoản người dùng
-        Double price = exam.getPrice();
+        Double price = exam.get().getPrice();
         if (account.getBalance() < price) {
             model.addAttribute("errorMessage", "Không đủ tiền trong tài khoản để bắt đầu bài kiểm tra.");
             return "Quiz/Error"; // Chuyển hướng đến trang báo lỗi nếu không đủ tiền
