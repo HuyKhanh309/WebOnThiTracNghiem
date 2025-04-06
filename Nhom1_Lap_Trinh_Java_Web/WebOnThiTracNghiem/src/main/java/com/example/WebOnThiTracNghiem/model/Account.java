@@ -1,7 +1,6 @@
 package com.example.WebOnThiTracNghiem.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,10 +25,8 @@ public class Account  implements UserDetails{
     private Long idAccount;
 
     @Column(name = "username", length = 50)
-    @NotBlank(message = "Username is required")
     private String username;
     @Column(name = "password", length = 250)
-    @NotBlank(message = "Password is required")
     private String password;
     private Boolean isActive;
     private Double balance;

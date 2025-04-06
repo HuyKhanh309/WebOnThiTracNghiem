@@ -10,33 +10,54 @@
 <body>
 <section layout:fragment="content" class="container mt-5">
     <h1 class="mb-4">Register</h1>
+
+    <!-- Toast Error Popup -->
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-fixed top-0 end-0 p-3" id="toastPlacement">
+            <div th:each="error : ${errors}"
+                 class="toast align-items-center text-bg-danger border-0 mb-2 show"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body" th:text="${error}"></div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Form -->
     <form th:action="@{/register}" method="post">
-        <div th:if="${errors}" class="alert alert-danger justify-content-center"
-             role="alert">
-            <ul>
-                <li th:each="error : ${errors}" th:text="${error}" class="textdanger text-start"></li>
-            </ul>
-        </div>
         <div class="form-group mb-4">
-            <label for="username"></label>
+            <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username"
-                   placeholder="Enter your username">
+                   placeholder="Enter your username" required>
         </div>
         <div class="form-group mb-4">
-            <label for="password"></label>
+            <label for="password">Password</label>
             <input type="password" class="form-control" id="password"
-                   name="password" placeholder="Enter your password">
+                   name="password" placeholder="Enter your password" required>
         </div>
         <div class="d-grid gap-2 form-action">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign
-                up</button>
-            <p class="mt-3 mb-0">Already have an account? <a class="text-info textcenter" th:href="${'/login'}">Login in?</a></p>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
+            <p class="mt-3 mb-0">
+                Already have an account?
+                <a class="text-info text-center" th:href="@{/login}">Login in?</a>
+            </p>
         </div>
     </form>
 </section>
 
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+<!-- Bootstrap JS & Toast script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+        toastElList.forEach(function (toastEl) {
+            new bootstrap.Toast(toastEl).show();
+        });
+    });
 </script>
 </body>
 </html>

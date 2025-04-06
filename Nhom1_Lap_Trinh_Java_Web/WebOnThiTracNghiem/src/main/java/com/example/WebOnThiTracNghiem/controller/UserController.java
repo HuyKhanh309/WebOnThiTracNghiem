@@ -30,6 +30,13 @@ public class UserController {
     public String register(@Valid @ModelAttribute("user") Account user,
                            @NotNull BindingResult bindingResult,
                            Model model) {
+        //Test 1
+        if(user.getUsername().isBlank()){
+            var errors = "Tài khoản không hợp lệ";
+            model.addAttribute("errors", errors);
+            return "/Users/Register";
+        }
+
         if (bindingResult.hasErrors()) {
             var errors = bindingResult.getAllErrors()
                     .stream()
