@@ -59,6 +59,7 @@ public class QuizController {
         model.addAttribute("examId", examId);
         return "Quiz/ExamNoScore";
     }
+
     @PostMapping("/exam/tryquiz_Exam/{id}")
     public String submittryExam(@PathVariable("id") Long id, @RequestParam Map<String, String> allParams, Model model, Principal principal) {
         if (questions == null || questions.isEmpty()) {
