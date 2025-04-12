@@ -34,12 +34,17 @@ public class ExamControllerTest {
         Exam exam = new Exam();
         when(bindingResult.hasErrors()).thenReturn(true);
 
+        // Debug
+        System.out.println(">> hasErrors = true (mô phỏng validate không thành công)");
+
         // When
         String result = examController.addExam(exam, bindingResult, model);
+        System.out.println(">> result returned: " + result);
 
         // Then
         assertEquals("redirect:/admin/exams/add", result);
         verify(examService, never()).addExam(any());
+        System.out.println(">> examService.addExam SHOULD NOT be called");
     }
 
     @Test
@@ -48,12 +53,17 @@ public class ExamControllerTest {
         Exam exam = new Exam();
         when(bindingResult.hasErrors()).thenReturn(false);
 
+        // Debug
+        System.out.println(">> hasErrors = false (mô phỏng validate thành công)");
+
         // When
         String result = examController.addExam(exam, bindingResult, model);
+        System.out.println(">> result returned: " + result);
 
         // Then
         assertEquals("redirect:/admin/exams", result);
         verify(examService, times(1)).addExam(exam);
+        System.out.println(">> examService.addExam was called with exam object");
     }
 
 }

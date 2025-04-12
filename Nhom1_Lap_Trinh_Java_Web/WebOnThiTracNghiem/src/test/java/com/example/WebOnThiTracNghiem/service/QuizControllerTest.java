@@ -45,16 +45,19 @@ public class QuizControllerTest {
 
     @Test
     void testGetQuizExam_ExamNotFound_ShouldReturnErrorPage() {
+        System.out.println(">>> TEST: Exam không tồn tại");
+
         Principal principal = mock(Principal.class);
         when(principal.getName()).thenReturn("admin");
 
-        when(accountRepository.findByUsername("admin")).thenReturn(new Account());
+        Account mockAccount = new Account();
+        when(accountRepository.findByUsername("admin")).thenReturn(mockAccount);
         when(examRepository.findById(examId)).thenReturn(Optional.empty());
 
         Model model = spy(new ConcurrentModel());
 
-        String result = quizController.getQuizExam(1L, model, principal);
-        System.out.println(result);
+        String result = quizController.getQuizExam(examId, model, principal);
+        System.out.println(">>> Kết quả trả về: " + result);
 
         assertEquals("Quiz/Error", result);
         verify(model).addAttribute(eq("errorMessage"), contains("Invalid exam Id"));
@@ -62,19 +65,26 @@ public class QuizControllerTest {
 
     @Test
     void testGetQuizExam_InsufficientBalance_ShouldReturnErrorPage() {
+        System.out.println(">>> TEST: Không đủ tiền");
+
         Principal principal = mock(Principal.class);
         Account account = new Account();
-        account.setBalance(10.0); // QUAN TRỌNG nhất
+        account.setBalance(10.0);
+        System.out.println(">>> Account balance ban đầu: " + account.getBalance());
+
         when(principal.getName()).thenReturn("admin");
         when(accountRepository.findByUsername("admin")).thenReturn(account);
 
         Exam exam = new Exam();
         exam.setPrice(30.0);
+        System.out.println(">>> Giá bài thi: " + exam.getPrice());
+
         when(examRepository.findById(examId)).thenReturn(Optional.of(exam));
 
         Model model = spy(new ConcurrentModel());
 
         String result = quizController.getQuizExam(examId, model, principal);
+        System.out.println(">>> Kết quả trả về: " + result);
 
         assertEquals("Quiz/Error", result);
         verify(model).addAttribute(eq("errorMessage"), contains("Không đủ tiền"));
@@ -82,15 +92,20 @@ public class QuizControllerTest {
 
     @Test
     void testGetQuizExam_Success_ShouldReturnExamPage() {
+        System.out.println(">>> TEST: Đủ tiền, thi thành công");
+
         Principal principal = mock(Principal.class);
         Account account = new Account();
         account.setBalance(100.0);
+        System.out.println(">>> Account balance ban đầu: " + account.getBalance());
 
         when(principal.getName()).thenReturn("admin");
         when(accountRepository.findByUsername("admin")).thenReturn(account);
 
         Exam exam = new Exam();
         exam.setPrice(30.0);
+        System.out.println(">>> Giá bài thi: " + exam.getPrice());
+
         when(examRepository.findById(examId)).thenReturn(Optional.of(exam));
 
         Question question = new Question();
@@ -103,11 +118,13 @@ public class QuizControllerTest {
         Model model = spy(new ConcurrentModel());
 
         String result = quizController.getQuizExam(examId, model, principal);
+        System.out.println(">>> Kết quả trả về: " + result);
+        System.out.println(">>> Account balance sau khi trừ: " + account.getBalance());
 
         assertEquals("Quiz/ExamNoScore", result);
-        verify(accountRepository).save(account); // đã đổi từ accountService sang accountRepository
+        verify(accountRepository).save(account);
         verify(model).addAttribute(eq("questions"), any());
         verify(model).addAttribute("examId", examId);
-        assertEquals(70.0, account.getBalance()); // kiểm tra đã trừ tiền
+        assertEquals(70.0, account.getBalance());
     }
 }
