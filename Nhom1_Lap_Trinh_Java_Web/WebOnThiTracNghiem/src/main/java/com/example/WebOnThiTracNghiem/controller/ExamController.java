@@ -45,6 +45,7 @@ public class ExamController {
     }
     @PostMapping("/admin/exams/add")
     public String addExam(@Valid @ModelAttribute Exam exam, BindingResult result, Model model) {
+        //Test
         if (result.hasErrors()) {
             return "redirect:/admin/exams/add";
         }

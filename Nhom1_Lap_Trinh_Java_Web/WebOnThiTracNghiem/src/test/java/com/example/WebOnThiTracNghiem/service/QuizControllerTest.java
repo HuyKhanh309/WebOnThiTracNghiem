@@ -5,8 +5,6 @@ import com.example.WebOnThiTracNghiem.model.Account;
 import com.example.WebOnThiTracNghiem.model.Exam;
 import com.example.WebOnThiTracNghiem.model.ExamQuestion;
 import com.example.WebOnThiTracNghiem.model.Question;
-import com.example.WebOnThiTracNghiem.repository.AccountExamRepository;
-import com.example.WebOnThiTracNghiem.repository.AccountRepository;
 import com.example.WebOnThiTracNghiem.repository.ExamRepository;
 import com.example.WebOnThiTracNghiem.repository.IAccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,19 +41,20 @@ public class QuizControllerTest {
     @MockBean
     private ExamQuestionService examQuestionService;
 
-    private final Long examId = 0L;
+    private final Long examId = 1L;
 
     @Test
     void testGetQuizExam_ExamNotFound_ShouldReturnErrorPage() {
         Principal principal = mock(Principal.class);
-        when(principal.getName()).thenReturn("user");
+        when(principal.getName()).thenReturn("admin");
 
-        when(accountRepository.findByUsername("user")).thenReturn(new Account());
+        when(accountRepository.findByUsername("admin")).thenReturn(new Account());
         when(examRepository.findById(examId)).thenReturn(Optional.empty());
 
         Model model = spy(new ConcurrentModel());
 
-        String result = quizController.getQuizExam(examId, model, principal);
+        String result = quizController.getQuizExam(1L, model, principal);
+        System.out.println(result);
 
         assertEquals("Quiz/Error", result);
         verify(model).addAttribute(eq("errorMessage"), contains("Invalid exam Id"));

@@ -2,7 +2,6 @@ package com.example.WebOnThiTracNghiem.service;
 
 import com.example.WebOnThiTracNghiem.controller.ExamController;
 import com.example.WebOnThiTracNghiem.model.Exam;
-import com.example.WebOnThiTracNghiem.service.ExamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
