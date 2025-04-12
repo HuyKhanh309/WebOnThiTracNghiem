@@ -1,16 +1,20 @@
 package com.example.WebOnThiTracNghiem.service;
+
 import com.example.WebOnThiTracNghiem.controller.QuizController;
 import com.example.WebOnThiTracNghiem.model.Account;
 import com.example.WebOnThiTracNghiem.model.Exam;
 import com.example.WebOnThiTracNghiem.model.ExamQuestion;
 import com.example.WebOnThiTracNghiem.model.Question;
+import com.example.WebOnThiTracNghiem.repository.AccountExamRepository;
 import com.example.WebOnThiTracNghiem.repository.AccountRepository;
 import com.example.WebOnThiTracNghiem.repository.ExamRepository;
+import com.example.WebOnThiTracNghiem.repository.IAccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 
 import java.security.Principal;
@@ -18,38 +22,38 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@RequiredArgsConstructor
 public class QuizControllerTest {
 
-    @InjectMocks
+    @Autowired
     private QuizController quizController;
 
-    @Mock
-    private AccountRepository accountRepository;
+    @MockBean
+    private IAccountRepository accountRepository;
 
-    @Mock
+    @MockBean
     private ExamRepository examRepository;
 
-    @Mock
+    @MockBean
     private ExamQuestionService examQuestionService;
-
-    @Mock
-    private Model model;
-
-    @Mock
-    private Principal principal;
 
     private final Long examId = 0L;
 
     @Test
     void testGetQuizExam_ExamNotFound_ShouldReturnErrorPage() {
+        Principal principal = mock(Principal.class);
         when(principal.getName()).thenReturn("user");
-        when(accountRepository.findByUsername("user")).thenReturn(Optional.of(new Account()));
+
+        when(accountRepository.findByUsername("user")).thenReturn(new Account());
         when(examRepository.findById(examId)).thenReturn(Optional.empty());
+
+        Model model = spy(new ConcurrentModel());
 
         String result = quizController.getQuizExam(examId, model, principal);
 
@@ -59,14 +63,17 @@ public class QuizControllerTest {
 
     @Test
     void testGetQuizExam_InsufficientBalance_ShouldReturnErrorPage() {
+        Principal principal = mock(Principal.class);
         Account account = new Account();
-        account.setBalance(10.0);
-        when(principal.getName()).thenReturn("user");
-        when(accountRepository.findByUsername("user")).thenReturn(Optional.of(account));
+        account.setBalance(10.0); // QUAN TRỌNG nhất
+        when(principal.getName()).thenReturn("admin");
+        when(accountRepository.findByUsername("admin")).thenReturn(account);
 
         Exam exam = new Exam();
-        exam.setPrice(50.0);
+        exam.setPrice(30.0);
         when(examRepository.findById(examId)).thenReturn(Optional.of(exam));
+
+        Model model = spy(new ConcurrentModel());
 
         String result = quizController.getQuizExam(examId, model, principal);
 
@@ -76,10 +83,12 @@ public class QuizControllerTest {
 
     @Test
     void testGetQuizExam_Success_ShouldReturnExamPage() {
+        Principal principal = mock(Principal.class);
         Account account = new Account();
         account.setBalance(100.0);
-        when(principal.getName()).thenReturn("user");
-        when(accountRepository.findByUsername("user")).thenReturn(Optional.of(account));
+
+        when(principal.getName()).thenReturn("admin");
+        when(accountRepository.findByUsername("admin")).thenReturn(account);
 
         Exam exam = new Exam();
         exam.setPrice(30.0);
@@ -92,10 +101,12 @@ public class QuizControllerTest {
 
         when(examQuestionService.getQuestionsByExamId(examId)).thenReturn(examQuestions);
 
+        Model model = spy(new ConcurrentModel());
+
         String result = quizController.getQuizExam(examId, model, principal);
 
         assertEquals("Quiz/ExamNoScore", result);
-        verify(accountRepository).save(account);
+        verify(accountRepository).save(account); // đã đổi từ accountService sang accountRepository
         verify(model).addAttribute(eq("questions"), any());
         verify(model).addAttribute("examId", examId);
         assertEquals(70.0, account.getBalance()); // kiểm tra đã trừ tiền
