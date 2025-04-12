@@ -127,4 +127,5 @@ public class QuizControllerTest {
         verify(model).addAttribute("examId", examId);
         assertEquals(70.0, account.getBalance());
     }
+
 }

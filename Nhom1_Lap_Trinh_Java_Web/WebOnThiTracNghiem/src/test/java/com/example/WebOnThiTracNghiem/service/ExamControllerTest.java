@@ -43,8 +43,13 @@ public class ExamControllerTest {
 
         // Then
         assertEquals("redirect:/admin/exams/add", result);
+
+        // Xác nhận không gọi service
         verify(examService, never()).addExam(any());
-        System.out.println(">> examService.addExam SHOULD NOT be called");
+
+        // Xác nhận có add error vào model
+        verify(model).addAttribute(eq("errorMessage"), contains("không hợp lệ"));
+        System.out.println(">> model.addAttribute(errorMessage, ...) đã được gọi");
     }
 
     @Test

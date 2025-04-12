@@ -31,7 +31,7 @@ public class QuizController {
     List<Question> questions;
     @GetMapping("/exam/quiz_Exam/{id}")
     public String getQuizExam(@PathVariable("id") Long examId, Model model, Principal principal) {
-        //Test1
+        //Test
 
         // Lấy thông tin người dùng đang đăng nhập
         Account account = accountRepository.findByUsername(principal.getName());
